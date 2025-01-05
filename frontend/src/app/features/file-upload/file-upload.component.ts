@@ -1,39 +1,47 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-file-upload',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
 })
 export class FileUploadComponent {
   selectedFile: File | null = null;
-  svgContent: SafeHtml | null = null; // Use SafeHtml for sanitized SVG
+  svgContent: SafeHtml | null = null;
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
 
-  uploadFile(): void {
+  async uploadFile(): Promise<void> {
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('image', this.selectedFile);
 
-      this.http.post<{ url: string }>('/api/convert', formData).subscribe(
-        (response) => {
-          console.log('SVG URL:', response.url); // Debugging log
-          this.svgContent = response.url; // Update the SVG URL
-        },
-        (error) => {
-          console.error('Error uploading file', error);
-        }
-      );
-    }
-}
+      try {
+        const response = await fetch('/api/convert', {
+          method: 'POST',
+          body: formData,
+        });
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const svgResponse = await response.text();
+        console.log('Raw SVG Response:', svgResponse);
+
+        // Sanitize and render the SVG
+        this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svgResponse);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  }
 }

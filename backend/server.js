@@ -5,6 +5,7 @@ const sharp = require('sharp');
 const Jimp = require('jimp');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs'); // Import the fs module
 
 const app = express();
 const port = 3000;
@@ -39,7 +40,7 @@ app.post('/convert', upload.single('image'), (req, res) => {
         console.log('SVG saved at:', outputSvgPath);
 
         // Return the file URL
-        res.json({ url: `http://localhost:3000/${outputSvgPath}` });
+        res.type('image/svg+xml').send(svg); // Send raw SVG directly
     });
 });
 

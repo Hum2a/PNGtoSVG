@@ -2,9 +2,11 @@
   <h2>Upload Your PNG</h2>
   <input type="file" (change)="onFileSelected($event)" />
   <button (click)="uploadFile()">Convert to SVG</button>
+</div>
 
-  <div *ngIf="svgContent" class="result">
-    <h3>Converted SVG:</h3>
-    <object [data]="svgContent" type="image/svg+xml"></object> <!-- Render SVG as object -->
+<div *ngIf="svgContent" class="svg-display-container">
+  <h3>Converted SVG:</h3>
+  <div class="svg-wrapper">
+    <div [innerHTML]="svgContent"></div>
   </div>
 </div>
