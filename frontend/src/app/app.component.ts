@@ -3,10 +3,17 @@ import { FileUploadComponent } from "./features/file-upload/file-upload.componen
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [FileUploadComponent], // No need to include provideHttpClient() here
-  template: `
-    <app-file-upload></app-file-upload>
-  `,
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  imports: [FileUploadComponent]
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'PNG to SVG Converter';
+  uploadCount = 0;
+
+  onUploadComplete() {
+    this.uploadCount++;
+    console.log(`Total uploads: ${this.uploadCount}`);
+  }
+}
+

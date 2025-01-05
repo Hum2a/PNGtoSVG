@@ -1,12 +1,42 @@
 <div class="upload-container">
-  <h2>Upload Your PNG</h2>
-  <input type="file" (change)="onFileSelected($event)" />
-  <button (click)="uploadFile()">Convert to SVG</button>
+  <h2>🎨 Convert Your PNG to SVG</h2>
+  <p class="subtitle">Transform your PNG images into scalable, high-quality SVGs in seconds!</p>
+
+  <div class="file-upload-wrapper">
+    <label for="file-input" class="file-upload-label">
+      <span class="upload-icon">📁</span>
+      <span class="upload-text">Choose a PNG File</span>
+      <input id="file-input" type="file" (change)="onFileSelected($event)" class="file-input" />
+    </label>
+  </div>
+
+  <button (click)="uploadFile()" class="convert-button" [disabled]="!selectedFile">🚀 Convert to SVG</button>
 </div>
 
 <div *ngIf="svgContent" class="svg-display-container">
-  <h3>Converted SVG:</h3>
+  <h3>Your Converted SVG:</h3>
   <div class="svg-wrapper">
     <div [innerHTML]="svgContent"></div>
+  </div>
+
+  <div class="svg-options">
+    <button class="toggle-button" (click)="toggleCodeView()">
+      {{ showSvgCode ? 'Hide SVG Code' : 'Show SVG Code' }}
+    </button>
+    <button class="copy-button" (click)="copySvgCode()" [disabled]="!svgCode">
+      📋 Copy SVG Code
+    </button>
+  </div>
+
+  <div *ngIf="showSvgCode" class="svg-code-container">
+    <pre>{{ svgCode }}</pre>
+  </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="modalVisible" class="modal-overlay">
+  <div class="modal-content">
+    <h3>{{ modalMessage }}</h3>
+    <button class="modal-close-button" (click)="closeModal()">Close</button>
   </div>
 </div>

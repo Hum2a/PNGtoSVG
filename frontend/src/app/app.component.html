@@ -1,1 +1,42 @@
-<app-file-upload></app-file-upload>
+<div class="main-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <img src="/pngtosvg.png" alt="PNG to SVG Logo" class="hero-logo" />
+    <h1>PNG to SVG Converter</h1>
+    <p>Transform your PNGs into scalable SVGs effortlessly!</p>
+    <button class="cta-button">Get Started</button>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2>Why Use Our Converter?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>Effortless Conversion</h3>
+        <p>Upload your PNG and let us do the magic!</p>
+      </div>
+      <div class="feature-card">
+        <h3>High-Quality SVGs</h3>
+        <p>Get optimized, scalable vector graphics.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Completely Free</h3>
+        <p>Use our tool with no hidden costs!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upload Section -->
+  <section class="upload-section">
+    <h2>Upload Your PNG</h2>
+    <app-file-upload (uploadComplete)="onUploadComplete()"></app-file-upload>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 PNG to SVG Converter. All rights reserved.</p>
+    <p>
+      <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a>
+    </p>
+  </footer>
+</div>
